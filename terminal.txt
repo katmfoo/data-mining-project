@@ -1,0 +1,46 @@
+====================================================
+cluster.py output
+====================================================
+
+[02:39:35] Opening data.json...
+
+Terms in tfidf matrix
+["'d", 'abl', 'actual', 'agre', 'alreadi', 'anoth', 'basic', 'best', 'better', 'big', 'bit', 'boyfriend', 'bring',
+'brother', 'ca', "ca n't", 'came', 'care', 'chang', 'close', 'coupl', 'dad', 'date', 'deal', 'decid', 'differ',
+"doe n't", 'doesnt', 'dure', 'edit', 'els', 'everi', 'everyon', 'everyth', 'explain', 'feel like', 'felt', 'fine',
+'friend', 'gave', 'girlfriend', 'guy', 'happen', 'happi', 'hard', 'honest', 'hour', 'howev', 'issu', 'ive', 'job',
+'kid', 'kind', 'knew', 'later', 'leav', 'left', 'life', 'll', 'long', 'love', 'mad', 'mayb', 'mean', 'mention', 'mind',
+'minut', 'mom', 'money', 'mother', "n't know", "n't want", 'new', 'nice', 'night', 'noth', 'old', 'onc', 'parent',
+'past', 'pay', 'phone', 'place', 'plan', 'play', 'point', 'post', 'pretti', 'probabl', 'problem', 'reason', 'recent',
+'relationship', 'room', 'school', 'shes', 'sister', 'situat', 'someon', 'spend', 'stay', 'stop', 'stuff', 'sure',
+'text', 'thank', 'today', 'togeth', 'took', 'turn', 'understand', 'upset', 'usual', 'walk', 'wibta', 'wrong']
+
+
+
+Top terms per cluster:
+
+Cluster 0 words: b'pay', b'money', b'job', b'parents', b'new', b'spending',               (labeled: finance)
+
+Cluster 1 words: b'boyfriend', b'school', b'girlfriend', b'night', b'friend', b'leave',   (labeled: relationship)
+
+Cluster 2 words: b'mom', b'sister', b'dad', b'brothers', b'parents', b'mothers',          (labeled: family)
+
+
+
+
+====================================================
+analyze.py output
+====================================================
+
+
+
+[02:48:44] Opening data.json...
+Total posts: 9892
+    Relationship: 6909(0.6984431864132632% of all posts)
+    Family: 1942(0.19632025879498585% of all posts)
+    Finance: 1041(0.10523655479175091% of all posts)
+
+Total assholes: 2360(0.23857662757784068% of all posts)
+    Relationship: 1715(0.24822695035460993% of all relationship posts)
+    Family: 396(0.203913491246138% of all family posts)
+    Finance: 249(0.23919308357348704% of all finance posts)

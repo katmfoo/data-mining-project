@@ -5,6 +5,7 @@ from psaw import PushshiftAPI # reddit sdk wrapper
 import re
 import datetime
 import json
+import html
 
 # =========================================================================
 # Rowan University, Data Mining 1 Final Project
@@ -39,7 +40,7 @@ def get_symbol_matches(text):
         'nah': 0
     }
     for symbol in symbols:
-        result = re.search('[ ]+' + symbol + '[ ]+', text)
+        result = re.search(symbol, text)
         if result != None:
             matches[symbol] += 1
     return matches
@@ -58,9 +59,33 @@ api = PushshiftAPI(reddit)
 
 # setup submission generator to loop over reddit posts on subreddit over given date range
 util.log('Setting up submission generator...')
-start_epoch=int(datetime.datetime(2019, 12, 1).timestamp())
-end_epoch=int(datetime.datetime(2019, 12, 31).timestamp())
+start_epoch=int(datetime.datetime(2019, 11, 1).timestamp())
+end_epoch=int(datetime.datetime(2019, 11, 30).timestamp())
 submission_generator = api.search_submissions(subreddit = 'AmItheAsshole', after = start_epoch, before = end_epoch)
+
+def clean_text(text):
+    # lower case all chars
+    text = text.lower()
+
+    # html unescape entity codes
+    text = html.unescape(text)
+
+    # remove any special chars
+    text = text.replace('\n\n', ' ')
+    text = text.replace('\n', ' ')
+    text = text.replace('\\*', '')
+    text = text.replace('\\~', '')
+    text = text.replace('\\', '')
+    text = text.replace('/', ' ')
+    text = text.replace('*', '')
+
+    # remove any escaped double quotes
+    text = text.replace('\"', '')
+
+    # remove any unicode sequences
+    text = text.encode('ascii', 'ignore').decode("utf-8")
+
+    return text
 
 # setup dictionary object to store posts
 data = {
@@ -73,11 +98,11 @@ util.log('Gathering posts and counting abbreviations in comments...')
 for submission in submission_generator:
 
     # format title and body to alpha only lower case
-    title = alpha_regex.sub(' ', ' ' + submission.title + ' ').lower()
-    body = alpha_regex.sub(' ', ' ' + submission.selftext + ' ').lower()
+    title = clean_text(submission.title)
+    body = clean_text(submission.selftext)
 
-    # ignore empty or deleted posts
-    if body.strip() in ['', 'deleted', 'removed']:
+    # ignore deleted or removed posts
+    if body in ['[deleted]', '[removed]']:
         continue
 
     # setup object to hold number of symbol mentions in comments
@@ -92,7 +117,7 @@ for submission in submission_generator:
     # look through comments for abbreviations
     for comment in submission.comments:
         if hasattr(comment, 'body'):
-            comment_body = alpha_regex.sub(' ', ' ' + comment.body + ' ').lower()[0:20]
+            comment_body = clean_text(comment.body)[0:10]
             matches = get_symbol_matches(comment_body)
             comment_mentions['yta'] += matches['yta']
             comment_mentions['nta'] += matches['nta']
