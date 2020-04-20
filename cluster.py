@@ -82,7 +82,7 @@ vocab_frame = pd.DataFrame({'words': totalvocab_tokenized}, index = totalvocab_s
 # ========================================
 
 from sklearn.feature_extraction.text import TfidfVectorizer
-tfidf_vectorizer = TfidfVectorizer(max_df=0.2, max_features=200000, min_df=0.1, stop_words='english', use_idf=True, tokenizer=tokenize_and_stem, ngram_range=(1,3))
+tfidf_vectorizer = TfidfVectorizer(max_df=0.2, min_df=0.1, stop_words='english', use_idf=True, tokenizer=tokenize_and_stem, ngram_range=(1,3))
 tfidf_matrix = tfidf_vectorizer.fit_transform(posts)
 terms = tfidf_vectorizer.get_feature_names()
 print(terms)
